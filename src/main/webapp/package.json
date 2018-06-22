@@ -10,23 +10,30 @@
     "build": "polymer build",
     "lint": "polymer lint",
     "test": "polymer test",
+    "api": "json-server --watch backend/db.json --routes backend/routes.json",
     "test:integration": "polymer build # test that psk builds without error with the CLI"
   },
   "dependencies": {
     "@polymer/app-layout": "^3.0.0-pre.15",
     "@polymer/app-route": "^3.0.0-pre.15",
+    "@polymer/iron-ajax": "^3.0.0-pre.18",
     "@polymer/iron-flex-layout": "^3.0.0-pre.15",
+    "@polymer/iron-icons": "^3.0.0-pre.20",
     "@polymer/iron-iconset-svg": "^3.0.0-pre.15",
     "@polymer/iron-media-query": "^3.0.0-pre.15",
     "@polymer/iron-pages": "^3.0.0-pre.15",
     "@polymer/iron-selector": "^3.0.0-pre.15",
-    "@polymer/paper-icon-button": "^3.0.0-pre.15",
+    "@polymer/paper-checkbox": "^3.0.0-pre.18",
+    "@polymer/paper-icon-button": "^3.0.0-pre.20",
+    "@polymer/paper-input": "^3.0.0-pre.20",
+    "@polymer/paper-material": "^3.0.0-pre.20",
     "@polymer/polymer": "^3.0.0",
     "@webcomponents/webcomponentsjs": "^2.0.0"
   },
   "devDependencies": {
     "polymer-cli": "^1.7.4",
-    "wct-browser-legacy": "^1.0.1"
+    "wct-browser-legacy": "^1.0.1",
+    "json-server": "0.12.1"
   },
   "engines": {
     "node": ">=8.0"

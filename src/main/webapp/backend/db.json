@@ -1,0 +1,146 @@
+{
+  "firewallchannels": {
+    "channelList": [{
+      "name": "App1"
+    },
+      {
+        "name": "App2"
+      },
+      {
+        "name": "App3"
+      },
+      {
+        "name": "App4"
+      }]
+  },
+  "firewallchannel": {
+    "channelSetting": {
+      "requestHeaderActions": [
+        {
+          "name": "REMOVE_HEADER",
+          "value": "REMOVE_HEADER value string",
+          "actionType": "REMOVE_HEADER",
+          "requestHeaderName": {
+            "patternString": "requestHeaderName pattern string",
+            "ignoreCase": "true",
+            "invertPattern": "true"
+          },
+          "requestHeaderValue": {
+            "patternString": "requestHeaderValue pattern string",
+            "ignoreCase": "false",
+            "invertPattern": "false"
+          }
+        }
+      ],
+      "backendHttpRedirectLocationHeaderRewrites": [
+        {
+          "name": "backendHttpRedirectLocationHeaderRewritesFromTo",
+          "value": [
+            "backendHttpRedirectLocationHeaderRewritesFromTo",
+            "entrypath"
+          ],
+          "rewriteFrom": "rewrite from",
+          "rewriteTo": "rewrite to",
+          "ignoreCase": "true",
+          "enabled": "true"
+        }
+      ],
+      "entryPath": "/WebAppName/",
+      "virtuallHost": "http://host1, http://host2",
+      "controlApi": "Denied",
+      "envCookies": "true",
+      "outputCompression": "false",
+      "sessionHandling": "ENFORCE_SESSION",
+      "loadBalancingCookie": "false",
+      "authorizedRoles": "role1,role2,role3",
+      "deniedAccessUrl": "deniedAccesUrl",
+      "backendTimeout": 120,
+      "minSessionIdleTimeout": 0,
+      "backendGroupId": 0,
+      "backendPath": "/BackenWebAppName/",
+      "requestFrequencyFilterMaxRequestsPerInterval": 500,
+      "requestFrequencyFilterInterval": 60,
+      "name": "BIA",
+      "backendEndpoint": "HTTPS://backend ,HTTPS://backend",
+      "includePortalHeaders": "false",
+      "encryptedCookiePrefix": "",
+      "passthroughCookiePrefix": "",
+      "requestBodySizeLimit": 1234567,
+      "maxPathLength": 1,
+      "maxNumberOfParameters": 1,
+      "maxParameterNameLength": 1,
+      "maxParameterValueLength": 1,
+      "generalBackendContentRewrite": [
+        {
+          "name": "generalBackendContentRewriteFromTo",
+          "value": [
+            "*.html",
+            "generalBackendContentRewriteFromTohtml"
+          ],
+          "rewriteFrom": "401",
+          "rewriteTo": "html",
+          "ignoreCase": "true"
+        },
+        {
+          "name": "generalBackendContentRewriteFromTo",
+          "value": [
+            "head",
+            "headmore"
+          ],
+          "rewriteFrom": "head",
+          "rewriteTo": "headmore",
+          "ignoreCase": "true"
+        }
+      ],
+      "allowRules": [
+        {
+          "name": "Allow all",
+          "pathPattern": "",
+          "httpMethodPattern": "sompostandget",
+          "contentTypePattern": "",
+          "ipPattern": "",
+          "active": "true",
+          "logOnly": "false",
+          "value": "Method:blub"
+        }
+      ],
+      "allowRuleParameterNameException": {
+        "name": "allowRuleParameterNameException",
+        "active": "true",
+        "value": "value"
+      }
+    },
+    "displayOrder": [
+      "name",
+      "virtuallHost",
+      "entryPath",
+      "backendPath",
+      "backendEndpoint",
+      "backendTimeout",
+      "authorizedRoles",
+      "sessionHandling",
+      "passthroughCookiePrefix",
+      "minSessionIdleTimeout",
+      "deniedAccessUrl",
+      "loadBalancingCookie",
+      "outputCompression",
+      "controlApi",
+      "envCookies",
+      "includePortalHeaders",
+      "encryptedCookiePrefix",
+      "requestHeaderActions",
+      "backendHttpRedirectLocationHeaderRewrites",
+      "backendGroupId",
+      "requestFrequencyFilterMaxRequestsPerInterval",
+      "requestFrequencyFilterInterval",
+      "requestBodySizeLimit",
+      "maxPathLength",
+      "maxNumberOfParameters",
+      "maxParameterNameLength",
+      "maxParameterValueLength",
+      "generalBackendContentRewrite",
+      "allowRules",
+      "allowRuleParameterNameException"
+    ]
+  }
+}

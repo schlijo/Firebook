@@ -8,8 +8,8 @@
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
 
-import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
-import { setPassiveTouchGestures, setRootPath } from '@polymer/polymer/lib/utils/settings.js';
+import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+import {setPassiveTouchGestures, setRootPath} from '@polymer/polymer/lib/utils/settings.js';
 import '@polymer/app-layout/app-drawer/app-drawer.js';
 import '@polymer/app-layout/app-drawer-layout/app-drawer-layout.js';
 import '@polymer/app-layout/app-header/app-header.js';
@@ -19,8 +19,17 @@ import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import '@polymer/app-route/app-location.js';
 import '@polymer/app-route/app-route.js';
 import '@polymer/iron-pages/iron-pages.js';
+import '@polymer/iron-ajax/iron-ajax.js';
 import '@polymer/iron-selector/iron-selector.js';
+import '@polymer/iron-icons/iron-icons.js';
+import '@polymer/paper-input/paper-textarea.js';
+import '@polymer/paper-input/paper-input.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
+import '@polymer/polymer/lib/elements/dom-repeat.js';
+import 'service.js'
+import 'firewallconfig.js'
+import 'channel.js'
+
 import './my-icons.js';
 
 // Gesture events like tap and track generated from touch will not be
@@ -32,8 +41,8 @@ setPassiveTouchGestures(true);
 setRootPath(MyAppGlobals.rootPath);
 
 class MyApp extends PolymerElement {
-  static get template() {
-    return html`
+    static get template() {
+        return html`
       <style>
         :host {
           --app-primary-color: #4285f4;
@@ -73,6 +82,9 @@ class MyApp extends PolymerElement {
         }
       </style>
 
+      <iron-ajax id="xhr"  handle-as="json" on-response="channelSettingDisplay" ></iron-ajax>
+      <iron-ajax id="channelservice" url="http://localhost:3000/firewallchannels" handle-as="json" on-response="channelListForMenu"></iron-ajax>
+      
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
       </app-location>
 
@@ -84,9 +96,15 @@ class MyApp extends PolymerElement {
         <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
           <app-toolbar>Menu</app-toolbar>
           <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-            <a name="view1" href="[[rootPath]]view1">View One</a>
-            <a name="view2" href="[[rootPath]]view2">View Two</a>
-            <a name="view3" href="[[rootPath]]view3">View Three</a>
+            <!--<a name="view1" href="[[rootPath]]view1">View One1</a>-->
+            <!--<a name="view2" href="[[rootPath]]view2">View Two</a>-->
+            <!--<a name="view3" href="[[rootPath]]view3">View Three</a>-->
+            
+            
+            <template data-route="channel" id="menuRepeater" is="dom-repeat">
+             <a name="{{item.name}}" href="[[rootPath]]{{item.name}}"><span>{{item.name}}</span></a>
+
+            </template>
           </iron-selector>
         </app-drawer>
 
@@ -101,73 +119,111 @@ class MyApp extends PolymerElement {
           </app-header>
 
           <iron-pages selected="[[page]]" attr-for-selected="name" role="main">
-            <my-view1 name="view1"></my-view1>
-            <my-view2 name="view2"></my-view2>
-            <my-view3 name="view3"></my-view3>
+          <!--<iron-pages attr-for-selected="data-route" selected="{{page}}" style="padding-top: 0px;padding-left: 20px;">-->
+            
+            <!--<my-view1 name="view1"></my-view1>-->
+            <!--<my-view2 name="view2"></my-view2>-->
+            <!--<my-view3 name="view3"></my-view3>-->
+            
+            <section name="chann-view">
+                <channel-view name="channelView"></channel-view>
+            </section>
+            
+            
             <my-view404 name="view404"></my-view404>
+            
+            
           </iron-pages>
         </app-header-layout>
       </app-drawer-layout>
     `;
-  }
-
-  static get properties() {
-    return {
-      page: {
-        type: String,
-        reflectToAttribute: true,
-        observer: '_pageChanged'
-      },
-      routeData: Object,
-      subroute: Object
-    };
-  }
-
-  static get observers() {
-    return [
-      '_routePageChanged(routeData.page)'
-    ];
-  }
-
-  _routePageChanged(page) {
-     // Show the corresponding page according to the route.
-     //
-     // If no page was found in the route data, page will be an empty string.
-     // Show 'view1' in that case. And if the page doesn't exist, show 'view404'.
-    if (!page) {
-      this.page = 'view1';
-    } else if (['view1', 'view2', 'view3'].indexOf(page) !== -1) {
-      this.page = page;
-    } else {
-      this.page = 'view404';
     }
 
-    // Close a non-persistent drawer when the page & route are changed.
-    if (!this.$.drawer.persistent) {
-      this.$.drawer.close();
+    static get properties() {
+        return {
+            page: {
+                type: String,
+                reflectToAttribute: true,
+                observer: '_pageChanged'
+            },
+            routeData: Object,
+            subroute: Object,
+            fireconfigs: Object,
+            service: Object
+        };
     }
-  }
 
-  _pageChanged(page) {
-    // Import the page component on demand.
-    //
-    // Note: `polymer build` doesn't like string concatenation in the import
-    // statement, so break it up.
-    switch (page) {
-      case 'view1':
-        import('./my-view1.js');
-        break;
-      case 'view2':
-        import('./my-view2.js');
-        break;
-      case 'view3':
-        import('./my-view3.js');
-        break;
-      case 'view404':
-        import('./my-view404.js');
-        break;
+    ready() {
+        // this.service = new ServiceImpl(this.$.xhr);
+        // this.fireconfigs = new Firewallconfig(this.service);
+        super.ready();
+        this.service = new ServiceImpl(this.$.xhr, this);
+        this.fireconfigs = new Firewallconfig(this.service, this);
+        this.$.channelservice.generateRequest();
     }
-  }
+
+    channelSettingDisplay(request) {
+        this.fireconfigs.selectChannel(request.detail.response);
+    }
+
+    channelListForMenu(request) {
+        var res = request.detail.response;
+        this.fireconfigs.setChannels(res.channelList);
+        this.$.menuRepeater.items = res.channelList;
+    }
+
+    static get observers() {
+        return [
+            '_routePageChanged(routeData.page)'
+        ];
+    }
+
+    _routePageChanged(page) {
+        // Show the corresponding page according to the route.
+        //
+        // If no page was found in the route data, page will be an empty string.
+        // Show 'view1' in that case. And if the page doesn't exist, show 'view404'.
+        if (!page) {
+            this.page = 'view1';
+        } else if (['view1', 'view2', 'view3', "chann-view"].indexOf(page) !== -1) {
+
+            this.page = page;
+        } else {
+            if (this.fireconfigs) {
+                this.fireconfigs.navigateTo(page);
+            }
+            this.page = 'chann-view';
+        }
+
+        // Close a non-persistent drawer when the page & route are changed.
+        if (!this.$.drawer.persistent) {
+            this.$.drawer.close();
+        }
+    }
+
+    _pageChanged(page) {
+        // Import the page component on demand.
+        //
+        // Note: `polymer build` doesn't like string concatenation in the import
+        // statement, so break it up.
+        switch (page) {
+            case 'view1':
+                import('./my-view1.js');
+                break;
+            case 'view2':
+                import('./my-view2.js');
+                break;
+            case 'view3':
+                import('./my-view3.js');
+                break;
+            case 'chann-view':
+                import('./channel-view.js');
+                break;
+            case 'view404':
+                import('./my-view404.js');
+                break;
+        }
+    }
 }
 
 window.customElements.define('my-app', MyApp);
