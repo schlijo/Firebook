@@ -4,13 +4,37 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ch.basler.firebook</groupId>
     <artifactId>Firebook</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.${revision}</version>
     <packaging>war</packaging>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <revision>0-SNAPSHOT</revision>
     </properties>
+
+    <scm>
+        <connection>scm:git:https://github.com/schlijo/Firebook.git</connection>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>artifact-repository</id>
+            <url>https://nexus.balgroupit.com/repository/baloise-ch-releases/</url>
+        </repository>
+    </distributionManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-scm-plugin</artifactId>
+                <version>1.9.4</version>
+                <configuration>
+                    <tag>${project.artifactId}-${project.version}</tag>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
