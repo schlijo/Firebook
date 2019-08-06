@@ -1,7 +1,5 @@
 package ch.basler.fire.dom;
 
-import ch.basler.firebook.jaxb.ConfigRoot;
-
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;

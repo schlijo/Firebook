@@ -1,7 +1,7 @@
 {
-  "name": "My App",
-  "short_name": "My App",
-  "description": "My App description",
+  "name": "Firebook",
+  "short_name": "Firebook",
+  "description": "Displays airlock settings",
   "icons": [
     {
       "src": "images/manifest/icon-192x192.png",

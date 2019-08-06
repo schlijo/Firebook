@@ -95,7 +95,7 @@ class MyApp extends PolymerElement {
         <!-- Drawer content -->
         <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
           <app-toolbar>Menu</app-toolbar>
-          <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+          <iron-selector id="mainmenu" selected="[[page]]"  class="drawer-list" role="navigation">
             <!--<a name="view1" href="[[rootPath]]view1">View One1</a>-->
             <!--<a name="view2" href="[[rootPath]]view2">View Two</a>-->
             <!--<a name="view3" href="[[rootPath]]view3">View Three</a>-->
@@ -114,7 +114,7 @@ class MyApp extends PolymerElement {
           <app-header slot="header" condenses="" reveals="" effects="waterfall">
             <app-toolbar>
               <paper-icon-button icon="my-icons:menu" drawer-toggle=""></paper-icon-button>
-              <div main-title="">My App</div>
+              <div main-title="">Firebook</div>
             </app-toolbar>
           </app-header>
 
@@ -126,7 +126,7 @@ class MyApp extends PolymerElement {
             <!--<my-view3 name="view3"></my-view3>-->
             
             <section name="chann-view">
-                <channel-view name="channelView"></channel-view>
+                <channel-view id="channelView" name="channelView"></channel-view>
             </section>
             
             

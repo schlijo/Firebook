@@ -27,9 +27,14 @@ class FirewallEnv extends PolymerElement {
                     <paper-textarea id="freetext" label="Informationen"></paper-textarea>
                 </td>
             </tr>
+            <tr>
+                <td>ttttt</td>
+            </tr>
             <template id="repeater" is="dom-repeat">
             <tr>
+                
                 <td>
+                ff
                     <firewall-value language="{{language}}" localesjson="{{localesjson}}" id="mu{{item.name}}" channeldata="{{item}}"></firewall-value>
                 </td>
                 <td hidden$="{{!compareMode}}">
@@ -61,7 +66,7 @@ class FirewallEnv extends PolymerElement {
 
     ready() {
         super.ready();
-        this.$.repeater.items = [{"name": "mysuper dude", "vaule": "test"}];
+        this.$.repeater.items = [{"name": "mysuper dude", "value": "test"}];
 
     }
 
